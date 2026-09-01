@@ -1,0 +1,14 @@
+{
+    "name": "tenten.csfigu",
+    "description": "A number placement puzzle. Fill the board by placing 1, 2, 3... on cells reachable by fixed movement rules.",
+    "title": "10ten",
+    "hooks": {
+        "tenten": {
+            "apparmor": "tenten.csfigu.apparmor",
+            "desktop": "tenten.csfigu.desktop"
+        }
+    },
+    "version": "0.1",
+    "maintainer": "Miguel Toque <miguel.toque@gmail.com>",
+    "framework": "@CLICK_FRAMEWORK@"
+}

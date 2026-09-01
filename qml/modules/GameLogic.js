@@ -145,6 +145,10 @@ function getNumberColor(number, maxNumber) {
 }
 
 function hexToRgb(hex) {
+    if (typeof hex !== "string") {
+        console.warn("hexToRgb got non-string:", typeof hex, String(hex))
+        return { r: 0, g: 0, b: 0 };
+    }
     var clean = hex.replace("#", "");
     return {
         r: parseInt(clean.substring(0, 2), 16),

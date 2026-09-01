@@ -186,8 +186,6 @@ Item {
             columns: game.boardSize
             rows: game.boardSize
             spacing: units.gu(0.4)
-            cellWidth: (width - spacing * (columns - 1)) / columns
-            cellHeight: cellWidth
 
             Repeater {
                 model: game.boardSize * game.boardSize
@@ -210,8 +208,8 @@ Item {
                                    game.currentPosition[0] === row &&
                                    game.currentPosition[1] === col
 
-            width: grid.cellWidth
-            height: grid.cellHeight
+            width: (grid.width - grid.spacing * (grid.columns - 1)) / grid.columns
+            height: width
             radius: units.gu(0.6)
 
             color: value ? game.tileColor(value)

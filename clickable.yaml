@@ -1,0 +1,4 @@
+builder: cmake
+framework: ubuntu-touch-24.04-1.x
+kill: qmlscene
+ignore_review_warnings: true

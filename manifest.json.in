@@ -9,6 +9,7 @@
         }
     },
     "version": "0.1",
+    "architecture": "$ENV{CLICK_ARCH}",
     "maintainer": "Miguel Toque <miguel.toque@gmail.com>",
     "framework": "@CLICK_FRAMEWORK@"
 }

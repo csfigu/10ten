@@ -50,7 +50,7 @@ Item {
                         font.pixelSize: units.gu(1.3)
                         font.bold: true
                         text: "NEXT"
-                        color: Logic.getContrastColor(parent.parent.color)
+                        color: Logic.getContrastColor(Logic.getNumberColor(header.nextNumber, header.maxNumber))
                         opacity: 0.85
                     }
                     Text {
@@ -58,7 +58,7 @@ Item {
                         font.pixelSize: units.gu(3.2)
                         font.bold: true
                         text: header.nextNumber
-                        color: Logic.getContrastColor(parent.parent.color)
+                        color: Logic.getContrastColor(Logic.getNumberColor(header.nextNumber, header.maxNumber))
                     }
                 }
             }

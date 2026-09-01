@@ -168,9 +168,9 @@ Item {
 
     Item {
         id: boardArea
-        width: parent.width
+        width: Math.min(parent.width, parent.height)
         height: width
-        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.centerIn: parent
 
         Rectangle {
             anchors.fill: parent

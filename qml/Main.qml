@@ -81,6 +81,7 @@ Window {
                 StartMenu {
                     id: startMenu
                     anchors.fill: parent
+                    z: 1
                     visible: mainView.viewScreen === "menu"
                     bestScore: game.highscore
                     canResume: settings.state !== ""
@@ -100,11 +101,14 @@ Window {
 
                 Column {
                     id: gameColumn
+                    z: 2
                     visible: mainView.viewScreen === "game"
-                    width: parent.width - units.gu(2)
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    anchors.top: parent.top
-                    anchors.topMargin: units.gu(1)
+                    anchors {
+                        top: parent.top
+                        left: parent.left
+                        right: parent.right
+                        bottom: footer.top
+                    }
                     spacing: units.gu(1)
 
                     Header {
@@ -121,6 +125,7 @@ Window {
                     Game {
                         id: game
                         width: parent.width
+                        height: parent.height - hud.height - units.gu(1)
 
                         onGameFinished: {
                             finishTimer.excellent = excellent
@@ -130,10 +135,16 @@ Window {
                             settings.state = game.serialize()
                         }
                     }
+                }
 
-                    Footer {
-                        id: footer
-                        width: parent.width
+                Footer {
+                    id: footer
+                    z: 2
+                    visible: mainView.viewScreen === "game"
+                    anchors {
+                        left: parent.left
+                        right: parent.right
+                        bottom: parent.bottom
                     }
                 }
             }

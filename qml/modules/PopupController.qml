@@ -14,22 +14,23 @@ Item {
     id: popupController
 
     function confirmNew(size) {
-        PopupUtils.open(confirmNewComponent, null, {newSize: size})
+        PopupUtils.open(confirmNewComponent, null, {newSize: size || 0})
     }
 
     Component {
         id: confirmNewComponent
         Dialog {
             id: confirmNewDia
+            property int newSize: 0
             title: "New game"
-            text: newSize ? ("Start a new " + newSize + "×" + newSize + " game? The current game will be lost.")
-                          : "Start a new game? The current game will be lost."
+            text: newSize > 0 ? ("Start a new " + newSize + "×" + newSize + " game? The current game will be lost.")
+                              : "Start a new game? The current game will be lost."
 
             Button {
                 text: "Start"
                 color: "#2E7D32"
                 onClicked: {
-                    game.newGame(newSize || undefined)
+                    game.newGame(confirmNewDia.newSize > 0 ? confirmNewDia.newSize : undefined)
                     PopupUtils.close(confirmNewDia)
                 }
             }
@@ -101,8 +102,10 @@ Item {
         id: gameOverComponent
         Dialog {
             id: gameOverDia
-            title: excellent ? "Excellent!" : "Game over"
-            text: "Score: " + score + (excellent ? "\nYou filled most of the board!" : "\nNo valid moves remain.")
+            property bool excellent: false
+            property int score: 0
+            title: gameOverDia.excellent ? "Excellent!" : "Game over"
+            text: "Score: " + gameOverDia.score + (gameOverDia.excellent ? "\nYou filled most of the board!" : "\nNo valid moves remain.")
 
             Button {
                 text: "New game"

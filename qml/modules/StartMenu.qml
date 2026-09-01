@@ -19,6 +19,13 @@ Item {
     signal resumeGame()
     signal showHelp()
 
+    /* solid light background: the logo and text are dark and must stay
+     * readable regardless of the system light/dark theme */
+    Rectangle {
+        anchors.fill: parent
+        color: "#FFFFFF"
+    }
+
     Column {
         anchors.centerIn: parent
         width: parent.width * 0.8

@@ -13,6 +13,8 @@ import "GameLogic.js" as Logic
 Item {
     id: header
 
+    height: units.gu(11)
+
     property int score: 0
     property int highscore: 0
     property int nextNumber: 1

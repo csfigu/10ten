@@ -36,6 +36,7 @@ Window {
         anchors.fill: parent
 
         property string version: "0.1"
+        property string viewScreen: "menu"   // "menu" | "game"
 
         Settings {
             id: settings
@@ -61,49 +62,79 @@ Window {
                             onTriggered: popupController.help()
                         },
                         Action {
-                            iconName: "reload"
-                            text: "New game"
-                            onTriggered: popupController.confirmNew()
+                            iconName: "home"
+                            text: "Menu"
+                            onTriggered: mainView.viewScreen = "menu"
                         }
                     ]
                 }
             }
 
-            Column {
-                id: gameColumn
-                width: parent.width - units.gu(2)
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.top: pageHeader.bottom
-                anchors.topMargin: units.gu(1)
-                spacing: units.gu(1)
-
-                Header {
-                    id: hud
-                    width: parent.width
-                    score: game.score
-                    highscore: game.highscore
-                    nextNumber: game.currentNumber
-                    maxNumber: game.maxNumber
-                    elapsed: game.elapsedTime
-                    themeName: game.themeName
+            Item {
+                anchors {
+                    top: pageHeader.bottom
+                    bottom: parent.bottom
+                    left: parent.left
+                    right: parent.right
                 }
 
-                Game {
-                    id: game
-                    width: parent.width
+                StartMenu {
+                    id: startMenu
+                    anchors.fill: parent
+                    visible: mainView.viewScreen === "menu"
+                    bestScore: game.highscore
+                    canResume: settings.state !== ""
 
-                    onGameFinished: {
-                        finishTimer.excellent = excellent
-                        finishTimer.start()
+                    onStartGame: {
+                        mainView.viewScreen = "game"
+                        game.newGame(size)
                     }
-                    onGameChanged: {
-                        settings.state = game.serialize()
+                    onResumeGame: {
+                        mainView.viewScreen = "game"
+                        if (!game.restore(settings.state)) {
+                            game.newGame(10)
+                        }
                     }
+                    onShowHelp: popupController.help()
                 }
 
-                Footer {
-                    id: footer
-                    width: parent.width
+                Column {
+                    id: gameColumn
+                    visible: mainView.viewScreen === "game"
+                    width: parent.width - units.gu(2)
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.top: parent.top
+                    anchors.topMargin: units.gu(1)
+                    spacing: units.gu(1)
+
+                    Header {
+                        id: hud
+                        width: parent.width
+                        score: game.score
+                        highscore: game.highscore
+                        nextNumber: game.currentNumber
+                        maxNumber: game.maxNumber
+                        elapsed: game.elapsedTime
+                        themeName: game.themeName
+                    }
+
+                    Game {
+                        id: game
+                        width: parent.width
+
+                        onGameFinished: {
+                            finishTimer.excellent = excellent
+                            finishTimer.start()
+                        }
+                        onGameChanged: {
+                            settings.state = game.serialize()
+                        }
+                    }
+
+                    Footer {
+                        id: footer
+                        width: parent.width
+                    }
                 }
             }
 
@@ -143,9 +174,7 @@ Window {
         }
 
         Component.onCompleted: {
-            if (!settings.state || !game.restore(settings.state)) {
-                game.newGame(10)
-            }
+            // Start on the menu; the game starts when the user picks a board size.
         }
     }
 }

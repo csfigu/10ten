@@ -12,6 +12,8 @@ import Lomiri.Components 1.3
 Item {
     id: footer
 
+    height: units.gu(6)
+
     Row {
         anchors.fill: parent
         spacing: units.gu(0.8)
